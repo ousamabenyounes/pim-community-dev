@@ -111,7 +111,7 @@ jobs:
         run: cd front-packages/akeneo-design-system && yarn test:visual:update
 
       - name: Get the current branch name to expose it later on
-        uses: mdecoleman/pr-branch-name@1.0.0
+        uses: mdecoleman/pr-branch-name@467bbd8d04d64b68e62afb1a1c7ea2e3b7edfeed # 1.0.0
         if: failure() && steps.visual_test_execution.outputs.status != 'success' && steps.build_storybook.outputs.status == 'success'
         id: extract_branch
         with:
@@ -124,7 +124,7 @@ jobs:
       - name: Push to a new branch and create pull request targeting the current one
         if: failure() && steps.visual_test_execution.outputs.status != 'success' && steps.build_storybook.outputs.status == 'success'
         id: create_visual_pull_request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@18f7dc018cc2cd597073088f7c7591b9d1c02672 # v3
         with:
           commit-message: Update visual tests for branch ${{ steps.extract_branch.outputs.branch }}
           branch: ${{ steps.extract_branch.outputs.branch }}-visual-update
@@ -134,7 +134,7 @@ jobs:
           assignees: ${{ github.actor }}
 
       - name: Comment current PR to notify that new visual snapshots are available
-        uses: thollander/actions-comment-pull-request@main
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3
         if: failure() && steps.visual_test_execution.outputs.status != 'success' && steps.build_storybook.outputs.status == 'success'
         with:
           message: |
@@ -143,7 +143,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to gh-pages on the external repository (in a subfolder)
-        uses: peaceiris/actions-gh-pages@v3.7.0-6
+        uses: peaceiris/actions-gh-pages@23abc3124adf2dd2cc1147230c113a9f04fbe851 # v3.7.0-6
         with:
           personal_token: ${{ secrets.DSM_EXTERNAL_TOKEN }}
           publish_dir: ./front-packages/akeneo-design-system/storybook-static
@@ -152,7 +152,7 @@ jobs:
           external_repository: akeneo/akeneo-design-system
 
       - name: Comment PR to say that the staging env is available
-        uses: thollander/actions-comment-pull-request@main
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3
         with:
           message: |
             A new version of the staging env has been deployed :tada:
